@@ -1,0 +1,44 @@
+@main() {
+
+    <h2>ElGamal Alogrithm</h2>
+    
+    <p>
+        The ElGamal Algorithm is the public key encryption similar to RSA but they
+        depend on different key of security. <a href="#ref1">[1]</a>
+        <ul>
+            <li>Security of RSA depends on the difficulty of factoring large integers.</li>
+            <li>Security of ElGamal depends on the difficulty of computing discrete logs in a large prime modulus.</li>
+        </ul>
+    </p>
+
+    <p>
+        It's encouraged to use different random k for different messages. Otherwise, we can see the pattern
+        in the ciphertext. For example, we use the same k for 2 messages m1 and m2 and the resulting
+        ciphertext pairs are (r1, t1) and (r2, t2). Then, t1t2 = m1m2. m1 could be computed if we already known m2.
+        <br />
+        However, this can be the <strong>advantage</strong> of ElGmal because we can generate random k for each message
+        and the ciphertext will be different even for the same message. We cannot see the pattern of the message from
+        the ciphertext.
+        <br />
+        The <strong>disadvantage</strong> of ElGamal is that the ciphertext is twice as long as the plaintext. <a href="#ref2">[2]</a>
+
+    </p>
+
+
+    <p>
+        <strong>References</strong>
+        <ul>
+            <li>
+            <a name="ref1" />
+            [1] Patel, Bhumi, and R. C. Patel. "Overview of watermarking and cryptography to combine both for
+            real time speech communication." (2014)
+            </li>
+            <li>
+            <a name="ref2" />
+            [2] Tawalbeh, Lo'ai A., and Saadeh Sweidan. "Hardware Design and Implementation of ElGamal Public-Key Cryptography Algorithm."
+            Information Security Journal: A Global Perspective 19.5 (2010): 243-252.
+            </li>
+        </ul>
+    </p>
+    
+}
