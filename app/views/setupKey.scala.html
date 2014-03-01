@@ -1,0 +1,46 @@
+@(setupKeyForm: Form[controllers.Application.SetupKey])
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {
+    Key setup
+}
+
+@main(title, nav = "setupKey") {
+    
+    @helper.form(action = routes.Application.createPublicKey) {
+        <h6>Alice wants to share secret with Bob</h6>
+        <p>
+            First step, she needs to set up the key pair.
+            In ElGamal, the public key contains 3 elements - prime, α, and β.
+            Prime should be a big number. It's difficult for human to find that value.
+            So, Alice lets the machine to generate random big prime number for her.
+            In order to create public key, she needs to enter her private key and
+            the primitive element (alpha) as the following formula to find β
+        </p>
+        <div style="padding-top: 10px; padding-bottom: 10px;text-align: center;border: dashed medium #888888;">
+            β = α<sup>a</sup> (<i>mod n</i>)
+        </div>
+        <fieldset>
+            @inputText(
+                setupKeyForm("privateKey"),
+                '_label -> "Private Key",
+                '_help -> "It's supposed to be big integer",
+                '_error -> setupKeyForm.globalError
+            )
+
+            @inputText(
+                setupKeyForm("alpha"), '_label -> "Alpha",
+                '_help -> "Primitive Element"
+            )
+
+        </fieldset>
+
+        <div class="actions" style="width: 100%;">
+            <input type="submit" class="btn primary" value="Create Public Key">
+            <a href="@routes.Application.index" class="btn">Cancel</a>
+        </div>
+        
+    }
+    
+}

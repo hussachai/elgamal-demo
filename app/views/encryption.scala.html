@@ -1,0 +1,75 @@
+@(msgForm: Form[controllers.Application.Message])(implicit session: play.api.mvc.Session)
+@import helper._
+@import helper.twitterBootstrap._
+@main(Html("Encryption"), nav = "encryption") {
+
+    @helper.form(action = routes.Application.encrypt, 'id -> "form") {
+        <script>
+            $(function(){
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+                $('#encryptBtn' ).click(function(){
+                    $.post('@routes.Application.encrypt', $( "#form" ).serialize())
+                        .done(function( data ) {
+                            $('#cipherText' ).val(data);
+                    });
+                });
+            })
+        </script>
+        <div class="row">
+            <div class="span9">
+                <div class="clearfix" id="privateKey_field">
+                    <label for="privateKey">Public Key:</label>
+                    <div class="input" style="padding-top:7px;">
+                        <span>
+                            ( @session.get("publicKey.prime"),
+                            @session.get("publicKey.alpha"),
+                            @session.get("publicKey.beta") )
+                        </span>
+                    </div>
+                </div>
+                @inputText(
+                    msgForm("key"),
+                    '_label -> "Bob's Key",
+                    '_help -> "Leave it empty if you want system to generate random number for block",
+                    '_error -> msgForm.globalError
+                )
+                @textarea(
+                    msgForm("text"),
+                    '_label -> "Bob's Message",
+                    '_help -> "",
+                    '_error -> msgForm.globalError,
+                    'rows -> 5, 'class -> "span6"
+                )
+                <div class="clearfix">
+                    <label></label>
+                    <div class="input">
+                        <input type="button" id="encryptBtn" class="btn btn-inverse" value="Encrypt" />
+                    </div>
+                </div>
+            </div>
+            <div class="span3" style="text-align: right;">
+                <img src="@routes.Assets.at("images/SpongeBob.png")" width="300px"
+                    style="padding-left: 50px;"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div class="clearfix" id="cipherText_field">
+                    <label for="cipherText">Bob&#x27;s Ciphers</label>
+                    <div class="input">
+                        <textarea id="cipherText" name="cipherText" class="span12" rows="7"></textarea>
+                        <span class="help-block">Collection of (r, t)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions" style="width:100%">
+            <a href="@routes.Application.prepareDecryption" class="btn primary">
+            Send secret message to Alice
+            </a>
+            <a href="@routes.Application.setupKey" class="btn">Cancel</a>
+        </div>
+    }
+
+
+}

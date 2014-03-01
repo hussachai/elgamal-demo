@@ -1,4 +1,4 @@
-@(title: Html = Html("Basic ElGamal Encryption - implementationed in Scala"), nav: String = "")(content: Html)
+@(title: Html = Html("Simple ElGamal Encryption - implemented in Scala"), nav: String = "")(content: Html)
 
 <!DOCTYPE html>
 
@@ -9,6 +9,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery.blockUI.js")" type="text/javascript"></script>
     </head>
     <body>
         
@@ -17,14 +18,17 @@
                 <div class="container">
                     <a class="brand" href="@routes.Application.index()">ElGamal</a>
                     <ul class="nav">
-                        <li class="@("active".when(nav == "keySetup"))">
-                            <a href="#">Key Setup</a>
+                        <li class="@("active".when(nav == "setupKey"))">
+                            <a href="@routes.Application.setupKey">Setup Key</a>
                         </li>
                         <li class="@("active".when(nav == "encryption"))">
-                            <a href="#">Encryption</a>
+                            <a href="@routes.Application.prepareEncryption">Encryption</a>
                         </li>
                         <li class="@("active".when(nav == "decryption"))">
-                            <a href="#">Decryption</a>
+                            <a href="@routes.Application.prepareDecryption">Decryption</a>
+                        </li>
+                        <li class="@("active".when(nav == "source"))">
+                            <a href="@routes.Application.source">Source</a>
                         </li>
                     </ul>
                 </div>
@@ -40,7 +44,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="span14">
+                    <div class="span12">
                         @content
                     </div>
                 </div>

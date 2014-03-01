@@ -1,0 +1,67 @@
+@(msgForm: Form[controllers.Application.Message])(implicit session: play.api.mvc.Session)
+@import helper._
+@import helper.twitterBootstrap._
+@main(Html("Decryption"), nav = "decryption") {
+
+    @helper.form(action = routes.Application.prepareDecryption, 'id -> "form") {
+        <script>
+            $(function(){
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+                $('#decryptBtn' ).click(function(){
+                    $.post('@routes.Application.decrypt', $( "#form" ).serialize())
+                        .done(function( data ) {
+                            $('#plainText' ).val(data);
+                    });
+                });
+            })
+        </script>
+        <div class="row">
+            <div class="span9">
+                <div class="clearfix" id="privateKey_field">
+                    <label for="privateKey">Private Key:</label>
+                    <div class="input" style="padding-top:7px;">
+                        <span> @session.get("privateKey") </span>
+                    </div>
+                </div>
+                @inputText(
+                    msgForm("key"),
+                    '_label -> "Alice's Private Key",
+                    '_help -> "Only Alice knows this key",
+                    '_error -> msgForm.globalError
+                )
+                @textarea(
+                    msgForm("text"),
+                    '_label -> "Bob's Cipher Text",
+                    '_help -> "",
+                    '_error -> msgForm.globalError,
+                    'rows -> 5, 'class -> "span6"
+                )
+                <div class="clearfix">
+                    <label></label>
+                    <div class="input">
+                        <input type="button" id="decryptBtn" class="btn btn-inverse" value="Decrypt" />
+                    </div>
+                </div>
+            </div>
+            <div class="span3" style="text-align: right;">
+                <img src="@routes.Assets.at("images/Alice.png")" height="250px"
+                    style="padding-left: 50px;"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div class="clearfix" id="plainText_field">
+                    <label for="plainText">Bob&#x27;s Plain Text</label>
+                    <div class="input">
+                        <textarea id="plainText" name="plainText" class="span12" rows="7"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions" style="width:100%">
+            <a href="@routes.Application.setupKey" class="btn">Start Over</a>
+        </div>
+    }
+
+
+}
