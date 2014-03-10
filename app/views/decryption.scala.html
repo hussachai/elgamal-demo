@@ -1,8 +1,9 @@
 @(msgForm: Form[controllers.Application.Message])(implicit session: play.api.mvc.Session)
 @import helper._
-@import helper.twitterBootstrap._
-@main(Html("Decryption"), nav = "decryption") {
+@import views.helper.twitterBootstrap3._
 
+@main(Html("Decryption"), nav = "decryption") {
+    <h6>Alice got encrypted message from Bob.</h6>
     @helper.form(action = routes.Application.prepareDecryption, 'id -> "form") {
         <script>
             $(function(){
@@ -16,10 +17,10 @@
             })
         </script>
         <div class="row">
-            <div class="span9">
-                <div class="clearfix" id="privateKey_field">
+            <div class="col-md-8">
+                <div class="form-group" id="privateKey_field">
                     <label for="privateKey">Private Key:</label>
-                    <div class="input" style="padding-top:7px;">
+                    <div class="form-control">
                         <span> @session.get("privateKey") </span>
                     </div>
                 </div>
@@ -27,39 +28,40 @@
                     msgForm("key"),
                     '_label -> "Alice's Private Key",
                     '_help -> "Only Alice knows this key",
-                    '_error -> msgForm.globalError
+                    '_error -> msgForm.globalError,
+                    'class -> "form-control"
                 )
                 @textarea(
                     msgForm("text"),
                     '_label -> "Bob's Cipher Text",
                     '_help -> "",
                     '_error -> msgForm.globalError,
-                    'rows -> 5, 'class -> "span6"
+                    'class -> "form-control col-md-6",
+                    'rows -> 5
                 )
-                <div class="clearfix">
-                    <label></label>
-                    <div class="input">
-                        <input type="button" id="decryptBtn" class="btn btn-inverse" value="Decrypt" />
-                    </div>
+                <div class="actions">
+                    <input type="button" id="decryptBtn" class="btn btn-success" value="Decrypt" />
                 </div>
             </div>
-            <div class="span3" style="text-align: right;">
-                <img src="@routes.Assets.at("images/Alice.png")" height="250px"
+            <div class="col-md-4" style="text-align: left;">
+                <img src="@routes.Assets.at("images/Alice.png")" height="300px"
                     style="padding-left: 50px;"/>
             </div>
         </div>
         <div class="row">
-            <div class="span12">
-                <div class="clearfix" id="plainText_field">
-                    <label for="plainText">Bob&#x27;s Plain Text</label>
-                    <div class="input">
-                        <textarea id="plainText" name="plainText" class="span12" rows="7"></textarea>
+            <div class="col-md-12">
+                <div class="form-group" id="plainText_field">
+                    <label class="control-label" for="plainText">Bob&#x27;s Plain Text</label>
+                    <textarea id="plainText" name="plainText" class="form-control col-md-12" rows="7"></textarea>
+                    <div style="margin-top: 5px; padding: 5px 0px 5px 5px;
+                             border: dashed thin #888888;">
+                        <p>M = c1*c2<sup>-x</sup>(<i>mod P</i>)</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="actions" style="width:100%">
-            <a href="@routes.Application.setupKey" class="btn">Start Over</a>
+            <a href="@routes.Application.setupKey" class="btn btn-primary">Start Over</a>
         </div>
     }
 

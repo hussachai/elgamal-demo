@@ -1,43 +1,46 @@
 @(setupKeyForm: Form[controllers.Application.SetupKey])
 @import helper._
-@import helper.twitterBootstrap._
+@import views.helper.twitterBootstrap3._
 
 @title = {
     Key setup
 }
 
 @main(title, nav = "setupKey") {
-    
-    @helper.form(action = routes.Application.createPublicKey) {
+    @helper.form(action = routes.Application.createPublicKey, '_role -> "form") {
         <h6>Alice wants to share secret with Bob</h6>
         <p>
             First step, she needs to set up the key pair.
-            In ElGamal, the public key contains 3 elements - prime, α, and β.
-            Prime should be a big number. It's difficult for human to find that value.
-            So, Alice lets the machine to generate random big prime number for her.
-            In order to create public key, she needs to enter her private key and
-            the primitive element (alpha) as the following formula to find β
+            In ElGamal, the public key contains 3 elements - prime, g, and h. <br />
+            <strong>Alice chooses</strong>
+            <ol>
+                <li>A large prime P. (say 24 bit length)</li>
+                <li>A primitive element: g (generator)</li>
+                <li>A private number x</li>
+            </ol>
+            Alice has to find h (the third number in public key tuple from  h = g<sup>x</sup> (<i>mod P</i>)
         </p>
-        <div style="padding-top: 10px; padding-bottom: 10px;text-align: center;border: dashed medium #888888;">
-            β = α<sup>a</sup> (<i>mod n</i>)
-        </div>
         <fieldset>
+            <div class="form-group">
             @inputText(
                 setupKeyForm("privateKey"),
                 '_label -> "Private Key",
                 '_help -> "It's supposed to be big integer",
-                '_error -> setupKeyForm.globalError
+                '_error -> setupKeyForm.globalError,
+                'class -> "form-control"
             )
-
+            </div>
             @inputText(
-                setupKeyForm("alpha"), '_label -> "Alpha",
-                '_help -> "Primitive Element"
+                setupKeyForm("alpha"), '_label -> "g",
+                '_help -> "Generator",
+                '_error -> setupKeyForm.globalError,
+                'class -> "form-control"
             )
 
         </fieldset>
 
         <div class="actions" style="width: 100%;">
-            <input type="submit" class="btn primary" value="Create Public Key">
+            <input type="submit" class="btn btn-primary" value="Create Public Key">
             <a href="@routes.Application.index" class="btn">Cancel</a>
         </div>
         

@@ -3,10 +3,8 @@
 @main(Html("Public Key created!"), nav = "setupKey") {
 
     <h2>Key Pair</h2>
-    <h6>Public Key Tuple</h6>
-    <p>(@kp.publicKey.prime, @kp.publicKey.alpha, @kp.publicKey.beta)</p>
-    <h6>Private Key</h6>
-    <p>@kp.privateKey</p>
+    <h3>Public Key Tuple : (@kp.publicKey.prime, @kp.publicKey.alpha, @kp.publicKey.beta)</h3>
+    <h3>Private Key : @kp.privateKey</h3>
 
     @helper.form(action = routes.Application.prepareEncryption) {
         <input type="hidden" name="keyPair.publicKey.prime" value='@kp.publicKey.prime' >
@@ -15,7 +13,7 @@
         <input type="hidden" name="keyPair.privateKey" value='@kp.privateKey' >
 
         <div class="actions">
-            <input type="submit" class="btn primary" value="Give Bob a Public Key">
+            <input type="submit" class="btn btn-primary" value="Give Bob a Public Key">
             <a href="@routes.Application.setupKey" class="btn">Cancel</a>
         </div>
     }

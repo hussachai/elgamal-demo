@@ -5,10 +5,14 @@ import play.api.mvc._
 import views.html
 import play.api.data._
 import play.api.data.Forms._
+import play.api.cache.Cache
+import play.api.Play.current
 import play.api.data.format.Formats._
 import ext.play.Formats._
 import algorithms.ElGamal
 import algorithms.ElGamal._
+import java.util.UUID
+
 
 object Application extends Controller {
 
@@ -38,6 +42,10 @@ object Application extends Controller {
 
   def source = Action {
     Ok(html.source())
+  }
+
+  def examples = Action {
+    Ok(html.examples())
   }
 
   def setupKey = Action {
@@ -72,7 +80,9 @@ object Application extends Controller {
           val alpha = BigInt(request.session.get("publicKey.alpha").get)
           val beta = BigInt(request.session.get("publicKey.beta").get)
           val cipherText = message.text.encrypt(PublicKey(prime, alpha, beta), message.key)
-          Ok(cipherText.toString).withSession(session + ("cipherText" -> cipherText.toString))
+          val uuid = request.session.get("uuid").getOrElse(UUID.randomUUID().toString)
+          Cache.set(uuid+"_cipherText", cipherText.toString)
+          Ok(cipherText.toString).withSession(session + ("uuid" -> uuid))
         }.getOrElse {
           Ok("Error: KeyPair not found")
         }
@@ -82,7 +92,8 @@ object Application extends Controller {
 
   def prepareDecryption = Action { implicit request =>
 
-      request.session.get("cipherText").map { cipherText =>
+      request.session.get("uuid").map { uuid =>
+          val cipherText = Cache.getOrElse[String](uuid+"_cipherText"){""}
           val privateKey = request.session.get("privateKey").map{ BigInt(_) }
           Ok(html.decryption(messageForm.fill(Message(cipherText, privateKey)))
         )

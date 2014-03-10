@@ -37,7 +37,8 @@ object ElGamal {
   }
 
   def encrypt(m: BigInt, publicKey: PublicKey, k: BigInt): Cipher =
-    Cipher(publicKey.alpha modPow(k, publicKey.prime) , publicKey.beta.modPow(k, publicKey.prime) * (m mod publicKey.prime))
+    Cipher(publicKey.alpha modPow(k, publicKey.prime) ,
+      publicKey.beta.modPow(k, publicKey.prime) * (m mod publicKey.prime))
 
   def decrypt(c: Cipher, prime: BigInt, privateKey: BigInt): BigInt =
     (c.t * (c.r modPow(-privateKey, prime))) mod prime
@@ -47,7 +48,8 @@ object ElGamal {
 
   class StringExt(str: String){
     def encrypt(publicKey: PublicKey, k: Option[BigInt] = None): Ciphers = {
-      Ciphers(for{s <- str getBytes} yield ElGamal.encrypt(s.toInt, publicKey, k getOrElse(BigInt(64, sc))))
+      Ciphers(for{s <- str getBytes} yield
+        ElGamal.encrypt(s.toInt, publicKey, k getOrElse(BigInt(64, sc))))
     }
   }
 

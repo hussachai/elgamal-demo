@@ -1,44 +1,73 @@
-@main() {
+@main(Html(""), nav = "intro") {
 
-    <h2>ElGamal Alogrithm</h2>
-    
-    <p>
-        The ElGamal Algorithm is the public key encryption similar to RSA but they
-        depend on different key of security. <a href="#ref1">[1]</a>
-        <ul>
-            <li>Security of RSA depends on the difficulty of factoring large integers.</li>
-            <li>Security of ElGamal depends on the difficulty of computing discrete logs in a large prime modulus.</li>
-        </ul>
-    </p>
+    <a name="carousel"></a>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>What is Elgamal?</h1>
+              <p>Elgamal is asymmetric key encryption algorithm which is based on Diffie-Hellman.</p>
+              <h2>What are there similarities between RSA and Elgamal?</h2>
+              <ul style="text-align: left;font-size: 1.5em;">
+                  <li>Asymmetric key encryption scheme.</li>
+                  <li>Partially homomorphic cryptosystems on multiplication operation.<br />
+                      E(x1)*E(x2) = E(x1*x2)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="container">
+            <div class="carousel-caption">
+              <img src="@routes.Assets.at("images/rsa_vs_elgamal.png")" />
+              <h1>It's like Coke vs Great Value Cola *</h1>
+              <h2>* Blind test</h2>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>So, what are there differences?</h1>
+              <table class="table" style="text-align: left;">
+                <thead>
+                  <tr>
+                    <th>RSA</th>
+                    <th>ElGamal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Security of RSA depends on the difficulty of factoring large integers.</td>
+                    <td>Security of ElGamal depends on the difficulty of computing discrete logs in a large prime modulus.</td>
+                  </tr>
+                  <tr>
+                    <td>2 elements for public key</td>
+                    <td>3 elements for public key</td>
+                  </tr>
+                  <tr>
+                    <td>In original RSA (non-padding), we can see the pattern in message.</td>
+                    <td>The sender can generate the random number for each message to make cipher text looks random.</td>
+                  </tr>
+                  <tr>
+                    <td>Shorter cipher text</td>
+                    <td>The cipher text is larger than RSA twice </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
 
-    <p>
-        It's encouraged to use different random k for different messages. Otherwise, we can see the pattern
-        in the ciphertext. For example, we use the same k for 2 messages m1 and m2 and the resulting
-        ciphertext pairs are (r1, t1) and (r2, t2). Then, t1t2 = m1m2. m1 could be computed if we already known m2.
-        <br />
-        However, this can be the <strong>advantage</strong> of ElGmal because we can generate random k for each message
-        and the ciphertext will be different even for the same message. We cannot see the pattern of the message from
-        the ciphertext.
-        <br />
-        The <strong>disadvantage</strong> of ElGamal is that the ciphertext is twice as long as the plaintext. <a href="#ref2">[2]</a>
-
-    </p>
-
-
-    <p>
-        <strong>References</strong>
-        <ul>
-            <li>
-            <a name="ref1" />
-            [1] Patel, Bhumi, and R. C. Patel. "Overview of watermarking and cryptography to combine both for
-            real time speech communication." (2014)
-            </li>
-            <li>
-            <a name="ref2" />
-            [2] Tawalbeh, Lo'ai A., and Saadeh Sweidan. "Hardware Design and Implementation of ElGamal Public-Key Cryptography Algorithm."
-            Information Security Journal: A Global Perspective 19.5 (2010): 243-252.
-            </li>
-        </ul>
-    </p>
-    
 }
